@@ -1,2 +1,3 @@
 import { default as HomePage } from './home';
-export { HomePage };
+import { default as ManagePage } from './manage';
+export { HomePage, ManagePage };
