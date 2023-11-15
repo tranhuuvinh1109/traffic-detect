@@ -7,6 +7,7 @@ type FolderImageType = {
   folderName: string;
   listFolder: string[];
   setChooseImage: (imageName: string) => void;
+  chooseImage?: string;
   className?: string;
 };
 

@@ -13,7 +13,6 @@ const Layout = () => {
       gap="1"
       color="blackAlpha.700"
       fontWeight="bold"
-      className="overflow-hidden"
     >
       <GridItem pl="2" area={'header'}>
         <Header />

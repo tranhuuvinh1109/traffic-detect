@@ -41,28 +41,33 @@ const ManagePage = () => {
               key={index}
               folderName={folder.folder}
               listFolder={folder.childImage}
+              chooseImage={chooseImage}
               setChooseImage={setChooseImage}
             />
           );
         })}
       </div>
-      <div className="ml-6 w-[70%] flex  ">
-        <div className="w-[65%]">
-          <h4 className="text-xl font-semibold py-4">Image origin</h4>
-          <img
-            className="w-full rounded-lg"
-            src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.split('-')[0]}/result/${chooseImage}`}
-            alt="fc"
-          />
-        </div>
-        <div className="w-[35%] ml-4">
-          <h4 className="text-xl font-semibold py-4">Image license</h4>
-          <img
-            className="w-full rounded-lg"
-            src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.split('-')[0]}/binary/${chooseImage}`}
-            alt="fc"
-          />
-        </div>
+      <div className="ml-6 w-[70%] flex">
+        {chooseImage && (
+          <>
+            <div className="w-[65%]">
+              <h4 className="text-xl font-semibold py-4">Image origin</h4>
+              <img
+                className="w-full rounded-lg"
+                src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.split('-')[0]}/result/${chooseImage}`}
+                alt="fc"
+              />
+            </div>
+            <div className="w-[35%] ml-4">
+              <h4 className="text-xl font-semibold py-4">Image license</h4>
+              <img
+                className="w-full rounded-lg"
+                src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.split('-')[0]}/binary/${chooseImage}`}
+                alt="fc"
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
