@@ -1,29 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { FolderImage } from '../../components';
 import manageAPI from '../../axios/manageAPI';
+import { VehicleType } from '../../type';
 
 type AllFolderType = {
-  folder: string;
-  childImage: string[];
+  list: VehicleType[];
+  folder_name: string;
 };
 const ManagePage = () => {
-  const [chooseImage, setChooseImage] = useState('');
+  const [chooseImage, setChooseImage] = useState<VehicleType>();
   const [allFolder, setAllFolder] = useState<AllFolderType[]>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await manageAPI.getAllFolder();
-        console.log(res.data.data);
-        let data: { folder: string; childImage: string[] }[] = [];
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        res.data.data.forEach((item: any) => {
-          data.push({
-            folder: item.folder,
-            childImage: item.result,
-          });
-        });
-        setAllFolder(data);
+        const res = await manageAPI.getAll();
+        const result = res.data.data.reduce(
+          (acc: { folder_name: string; list: VehicleType[] }[], item: VehicleType) => {
+            const folderIndex = acc.findIndex((folder) => folder.folder_name === item.folder_name);
+            if (folderIndex === -1) {
+              acc.push({
+                folder_name: item.folder_name,
+                list: [item],
+              });
+            } else {
+              acc[folderIndex].list.push(item);
+            }
+
+            return acc;
+          },
+          [],
+        );
+        setAllFolder(result);
       } catch (err) {
         console.log(err);
       }
@@ -39,8 +47,8 @@ const ManagePage = () => {
             <FolderImage
               id={index}
               key={index}
-              folderName={folder.folder}
-              listFolder={folder.childImage}
+              folderName={folder.folder_name}
+              listVehicle={folder.list}
               chooseImage={chooseImage}
               setChooseImage={setChooseImage}
             />
@@ -54,7 +62,7 @@ const ManagePage = () => {
               <h4 className="text-xl font-semibold py-4">Image origin</h4>
               <img
                 className="w-full rounded-lg"
-                src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.split('-')[0]}/result/${chooseImage}`}
+                src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.image_origin}`}
                 alt="fc"
               />
             </div>
@@ -62,9 +70,14 @@ const ManagePage = () => {
               <h4 className="text-xl font-semibold py-4">Image license</h4>
               <img
                 className="w-full rounded-lg"
-                src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.split('-')[0]}/binary/${chooseImage}`}
+                src={`${process.env.REACT_APP_API_ENDPOINT}/media/${chooseImage.image_detect}`}
                 alt="fc"
               />
+              <div>
+                <h5>License: {chooseImage.license_fixed}</h5>
+                <h5>Time: {chooseImage.time}</h5>
+                <h5>Location: {chooseImage.location}</h5>
+              </div>
             </div>
           </>
         )}

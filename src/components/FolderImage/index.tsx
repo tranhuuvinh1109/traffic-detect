@@ -6,7 +6,7 @@ import { FaRegImage } from 'react-icons/fa6';
 const FolderImage: React.FC<FolderImageType> = ({
   id,
   folderName,
-  listFolder,
+  listVehicle,
   className,
   chooseImage,
   setChooseImage,
@@ -49,17 +49,20 @@ const FolderImage: React.FC<FolderImageType> = ({
         <div className="w-full flex">
           <div className="w-[20%]"></div>
           <div className="w-[80%] max-h-[500px] overflow-y-auto">
-            {listFolder?.map((childFile, index) => {
+            {listVehicle?.map((childFile, index) => {
               return (
                 <div
                   key={index}
-                  onClick={() => setChooseImage(`${childFile}`)}
+                  onClick={() => {
+                    console.log(childFile);
+                    setChooseImage(childFile);
+                  }}
                   className={`${
-                    chooseImage === childFile ? 'text-yellow-400' : ''
+                    chooseImage?.file_name === childFile.file_name ? 'text-yellow-400' : ''
                   } hover:cursor-pointer hover:bg-slate-100 py-1.5 border-b border-slate-300 flex items-center`}
                 >
                   <FaRegImage className="mr-4" />
-                  {childFile.split('-')[1]?.replaceAll('_', ':') + '-' + childFile.split('-')[2]}
+                  {childFile.file_name.split('-')[1]?.replaceAll('_', ':') + '-' + childFile.file_name.split('-')[2]}
                 </div>
               );
             })}

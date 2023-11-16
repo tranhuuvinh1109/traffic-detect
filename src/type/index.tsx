@@ -1,3 +1,16 @@
+type VehicleType = {
+  id: number;
+  location: string;
+  type: number;
+  license: string;
+  confidence: string;
+  image_origin: string;
+  image_detect: string;
+  time: string;
+  license_fixed: string;
+  file_name: string;
+  folder_name: string;
+};
 type ChildImageType = {
   name: string;
 };
@@ -5,10 +18,10 @@ type ChildImageType = {
 type FolderImageType = {
   id: number;
   folderName: string;
-  listFolder: string[];
-  setChooseImage: (imageName: string) => void;
-  chooseImage?: string;
+  listVehicle: VehicleType[];
+  setChooseImage: React.Dispatch<React.SetStateAction<VehicleType | undefined>>;
+  chooseImage?: VehicleType;
   className?: string;
 };
 
-export type { FolderImageType, ChildImageType };
+export type { FolderImageType, ChildImageType, VehicleType };
