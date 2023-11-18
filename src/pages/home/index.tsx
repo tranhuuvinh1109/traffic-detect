@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Flex, Text, AspectRatio } from '@chakra-ui/react';
-import { ResultSearch } from '../../components';
 import SideBar from '../../components/SideBar';
 
 const HomePage = () => {
@@ -12,7 +11,7 @@ const HomePage = () => {
           Real-time camera in Da Nang{' '}
         </Text>
         <Flex h="100%">
-          <Box w="65%">
+          <Box w="100%">
             <AspectRatio maxW="860px" maxH="530px" ratio={1}>
               <iframe
                 width="860"
@@ -23,15 +22,6 @@ const HomePage = () => {
                 allowFullScreen
               ></iframe>
             </AspectRatio>
-          </Box>
-          <Box w="35%" className="ml-4">
-            <ResultSearch
-              src="https://www.folio3.ai/blog/wp-content/uploads/2022/11/Untitled-design-4.jpg"
-              alt="detect"
-              label="43N1 - 96969"
-              time="10:30 AM - 18/10/2023"
-              location="Lien Chieu"
-            />
           </Box>
         </Flex>
       </div>

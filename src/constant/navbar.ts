@@ -25,6 +25,12 @@ const navbar: NavItemInterface[] = [
   },
   {
     id: 2,
+    label: 'Search',
+    url: '/search',
+    icon: RiContactsLine,
+  },
+  {
+    id: 3,
     label: 'Contact',
     url: '/contact',
     icon: RiContactsLine,
