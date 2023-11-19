@@ -17,7 +17,7 @@ import {
   RangeSliderMark,
 } from '@chakra-ui/react';
 import { colors } from '../../constant/colors';
-import { Color } from '../../components';
+import { Color, VehiclePopover } from '../../components';
 import { MdGraphicEq } from 'react-icons/md';
 const { RangePicker } = DatePicker;
 
@@ -34,9 +34,9 @@ const SearchPage = () => {
   const [valueSearch, setValueSearch] = useState<string>('');
   const [result, setResult] = useState<VehicleType[]>();
   const [sliderValue, setSliderValue] = useState([30, 80]);
-  const [timeLabel, setTimeLabel] = useState<string[]>(['', '']);
+  const [timeLabel, setTimeLabel] = useState<string[]>();
   const [isOneDay, setIsOneDay] = useState<boolean>(false);
-  const [choosedDay, setDayChoosed] = useState<string>('');
+  const [choosedDay, setDayChoosed] = useState<string[]>();
   const [allLicense, setAllLicense] = useState<VehicleType[]>();
 
   const debouncedInputValue = useDebounce(valueSearch, 1000);
@@ -44,18 +44,24 @@ const SearchPage = () => {
     setValueSearch(e.target.value);
   };
   const handleChangeRangeSlider = (val: number[]) => {
-    const label = convertTime(choosedDay + ' 00:00:00', +val[0], +val[1]);
-    setTimeLabel(label);
-    setSliderValue(val);
+    if (choosedDay) {
+      const label = convertTime('' + choosedDay[0] + ' 00:00:00', +val[0], +val[1]);
+      setTimeLabel(label);
+      setSliderValue(val);
+    }
   };
   const onChange = (_value: any, dateString: any) => {
-    console.log('Formatted Selected Time: ', dateString);
     if (dateString && dateString?.length > 0) {
-      if (dateString[0] === dateString[1]) {
-        setIsOneDay(true);
-        setDayChoosed(dateString[0]);
-      } else {
+      if (dateString[0] === '') {
+        setTimeLabel(['', '']);
         setIsOneDay(false);
+      } else {
+        if (dateString[0] === dateString[1]) {
+          setIsOneDay(true);
+        } else {
+          setIsOneDay(false);
+        }
+        setDayChoosed([dateString[0], dateString[1]]);
       }
     }
   };
@@ -69,26 +75,32 @@ const SearchPage = () => {
         result = allLicense;
         setResult(result);
       }
+      if (choosedDay) {
+        let startDay: Date;
+        let endDay: Date;
+        if (isOneDay && timeLabel) {
+          startDay = new Date(choosedDay[0] + ' ' + timeLabel[0]);
+          endDay = new Date(choosedDay[1] + ' ' + timeLabel[1]);
+        } else {
+          startDay = new Date(choosedDay[0] + ' 00:00:00');
+          endDay = new Date(choosedDay[1] + ' 23:59:59');
+        }
+        result = allLicense.filter((item) => {
+          const itemTime = new Date(item.time);
+          return itemTime >= startDay && itemTime <= endDay;
+        });
+      }
       return (
         <div className="flex flex-wrap max-h-[600px] overflow-y-auto">
           {result &&
             result?.map((item, index) => {
-              return (
-                <div key={index} className="w-[32%] mr-3 border rounded-lg p-2 mb-4">
-                  <img
-                    className="w-full rounded-lg"
-                    src={`${process.env.REACT_APP_API_ENDPOINT}/media/${item.image_origin}`}
-                    alt={item.image_origin}
-                  />
-                  {item.license_fixed}
-                </div>
-              );
+              return <VehiclePopover key={index} data={item} />;
             })}
         </div>
       );
     }
     return <div>none</div>;
-  }, [allLicense, debouncedInputValue]);
+  }, [allLicense, debouncedInputValue, choosedDay, isOneDay, timeLabel]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -160,7 +172,7 @@ const SearchPage = () => {
               ml="-5"
               w="12"
             >
-              {timeLabel[0]}
+              {timeLabel && timeLabel[0]}
             </RangeSliderMark>
             <RangeSliderMark
               value={sliderValue[1]}
@@ -171,7 +183,7 @@ const SearchPage = () => {
               ml="-5"
               w="12"
             >
-              {timeLabel[1]}
+              {timeLabel && timeLabel[1]}
             </RangeSliderMark>
             <RangeSliderTrack bg="red.100">
               <RangeSliderFilledTrack bg="tomato" />

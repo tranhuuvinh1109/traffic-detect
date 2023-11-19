@@ -1,6 +1,7 @@
 import { MdManageHistory } from 'react-icons/md';
 import { GoHome } from 'react-icons/go';
 import { RiContactsLine } from 'react-icons/ri';
+import { FaSearchLocation } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 
 interface NavItemInterface {
@@ -27,7 +28,7 @@ const navbar: NavItemInterface[] = [
     id: 2,
     label: 'Search',
     url: '/search',
-    icon: RiContactsLine,
+    icon: FaSearchLocation,
   },
   {
     id: 3,
