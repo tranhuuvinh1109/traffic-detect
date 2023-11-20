@@ -1,3 +1,4 @@
 import { default as HomePage } from './home';
 import { default as ManagePage } from './manage';
-export { HomePage, ManagePage };
+import { default as SearchPage } from './search';
+export { HomePage, ManagePage, SearchPage };

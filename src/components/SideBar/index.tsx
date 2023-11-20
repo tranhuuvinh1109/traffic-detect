@@ -1,16 +1,23 @@
 import { GridItem, Text, RadioGroup, Stack, Radio, Divider, CheckboxGroup, Checkbox, Grid } from '@chakra-ui/react';
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useContext } from 'react';
 import { options } from '../../constant/options';
 import { filters } from '../../constant/filters';
 import { colors } from '../../constant/colors';
 import Color from '../Color';
 import InputSearch from '../InputSearch';
+import { APP_CONTEXT } from '../../App';
 
 const SideBar = () => {
+  const context = useContext(APP_CONTEXT);
   const [searchValue, setSearchValue] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+  };
+  const handleChangeRadio = (address: string) => {
+    if (context && context.setAddress) {
+      context.setAddress(address);
+    }
   };
   return (
     <div>
@@ -18,7 +25,7 @@ const SideBar = () => {
         <Text fontSize="xl" textAlign="left">
           Select location
         </Text>
-        <RadioGroup defaultValue="DaNang">
+        <RadioGroup onChange={handleChangeRadio} value={context.address}>
           {options.map((option) => {
             return (
               <Stack key={option.id} className="text-left px-1 py-2">

@@ -6,24 +6,24 @@ interface OptionInterface {
 const options: OptionInterface[] = [
   {
     id: 0,
-    label: 'DaNang',
-    value: 'DaNang',
+    label: 'TonDucThang',
+    value: 'tonducthang',
   },
   {
     id: 1,
-    label: 'HaNoi',
-    value: 'HaNoi',
+    label: 'DienBienPhu',
+    value: 'dienbienphu',
   },
-  {
-    id: 2,
-    label: 'SaiGon',
-    value: 'SaiGon',
-  },
-  {
-    id: 3,
-    label: 'Hue',
-    value: 'Hue',
-  },
+  // {
+  //   id: 2,
+  //   label: 'SaiGon',
+  //   value: 'SaiGon',
+  // },
+  // {
+  //   id: 3,
+  //   label: 'Hue',
+  //   value: 'Hue',
+  // },
 ];
 export type { OptionInterface };
 export { options };
