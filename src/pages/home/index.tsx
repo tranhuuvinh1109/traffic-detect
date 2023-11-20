@@ -1,8 +1,20 @@
-import React from 'react';
-import { Box, Flex, Text, AspectRatio } from '@chakra-ui/react';
+import React, { useContext } from 'react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import SideBar from '../../components/SideBar';
+import { APP_CONTEXT } from '../../App';
+import manageAPI from '../../axios/manageAPI';
 
 const HomePage = () => {
+  const context = useContext(APP_CONTEXT);
+  const handleClear = async () => {
+    console.log('clear');
+    try {
+      const res = await manageAPI.clear();
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="flex">
       <SideBar />
@@ -11,17 +23,17 @@ const HomePage = () => {
           Real-time camera in Da Nang{' '}
         </Text>
         <Flex h="100%">
-          <Box w="100%">
-            <AspectRatio maxW="860px" maxH="530px" ratio={1}>
-              <iframe
-                width="860"
-                height="500"
-                src="https://www.youtube.com/embed/cM1WpTC2Sp8?si=uXB5tB9KTznSh-40"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
-            </AspectRatio>
+          <Box w="100%" className="flex">
+            <div className="w-[80%]">
+              {context.address && (
+                <img src={`${process.env.REACT_APP_API_ENDPOINT}/video_feed/${context.address}/`} alt="address" />
+              )}
+            </div>
+            <div className="w-[20%]">
+              <button className="px-4 py-2 bg-orange-400 font-semibold" onClick={handleClear}>
+                Clear
+              </button>
+            </div>
           </Box>
         </Flex>
       </div>
