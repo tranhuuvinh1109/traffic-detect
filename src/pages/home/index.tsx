@@ -26,7 +26,7 @@ const HomePage = () => {
           <Box w="100%" className="flex">
             <div className="w-[80%]">
               {context.address && (
-                <img src={`${process.env.REACT_APP_API_ENDPOINT}/video_feed/${context.address}/`} alt="address" />
+                <img src={`${process.env.REACT_APP_API_ENDPOINT}/api/video_feed/${context.address}/`} alt="address" />
               )}
             </div>
             <div className="w-[20%]">
