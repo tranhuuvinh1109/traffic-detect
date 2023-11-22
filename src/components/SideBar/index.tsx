@@ -7,7 +7,10 @@ import Color from '../Color';
 import InputSearch from '../InputSearch';
 import { APP_CONTEXT } from '../../App';
 
-const SideBar = () => {
+type SideBarType = {
+  setInputService: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const SideBar: React.FC<SideBarType> = ({ setInputService }) => {
   const context = useContext(APP_CONTEXT);
   const [searchValue, setSearchValue] = useState('');
 
@@ -16,6 +19,8 @@ const SideBar = () => {
   };
   const handleChangeRadio = (address: string) => {
     if (context && context.setAddress) {
+      console.log('change');
+      setInputService(true);
       context.setAddress(address);
     }
   };
