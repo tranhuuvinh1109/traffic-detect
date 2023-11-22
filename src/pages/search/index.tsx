@@ -67,13 +67,13 @@ const SearchPage = () => {
   };
   const render = useMemo(() => {
     if (allLicense && allLicense?.length > 0) {
-      let result = [];
+      let resultTemp = [];
       if (debouncedInputValue.trim()) {
-        result = allLicense?.filter((item) => item.license_fixed.includes(debouncedInputValue));
-        setResult(result);
+        resultTemp = allLicense?.filter((item) => item.license_fixed.includes(debouncedInputValue));
+        setResult(resultTemp);
       } else {
-        result = allLicense;
-        setResult(result);
+        resultTemp = allLicense;
+        setResult(resultTemp);
       }
       if (choosedDay) {
         let startDay: Date;
@@ -85,15 +85,16 @@ const SearchPage = () => {
           startDay = new Date(choosedDay[0] + ' 00:00:00');
           endDay = new Date(choosedDay[1] + ' 23:59:59');
         }
-        result = allLicense.filter((item) => {
+        resultTemp = allLicense.filter((item) => {
           const itemTime = new Date(item.time);
           return itemTime >= startDay && itemTime <= endDay;
         });
+        setResult(resultTemp);
       }
       return (
         <div className="flex flex-wrap max-h-[600px] overflow-y-auto">
-          {result &&
-            result?.map((item, index) => {
+          {resultTemp &&
+            resultTemp?.map((item, index) => {
               return <VehiclePopover key={index} data={item} />;
             })}
         </div>
@@ -130,27 +131,6 @@ const SearchPage = () => {
             })}
           </Grid>
         </Stack>
-        <input
-          value={valueSearch}
-          onChange={handleChangeSearch}
-          placeholder="Search"
-          className="border border-gray-300 w-full px-3 py-1 mt-4"
-        />
-        <h5>List license</h5>
-        <div className="bg-orange-200 text-left max-h-[300px] overflow-y-auto">
-          {result &&
-            result?.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="py-1 px-3 border-b border-gray-500 hover:bg-slate-100 hover:cursor-pointer"
-                  onClick={() => setValueSearch(item.license_fixed)}
-                >
-                  {item.license_fixed}
-                </div>
-              );
-            })}
-        </div>
         <RangePicker size="middle" className="mt-4" format="YYYY-MM-DD" onChange={onChange} />
         <div className="mt-10">
           <RangeSlider
@@ -195,6 +175,27 @@ const SearchPage = () => {
               <Box color="tomato" as={MdGraphicEq} />
             </RangeSliderThumb>
           </RangeSlider>
+        </div>
+        <input
+          value={valueSearch}
+          onChange={handleChangeSearch}
+          placeholder="Search"
+          className="border border-gray-300 w-full px-3 py-1 mt-4"
+        />
+        <h5>List license</h5>
+        <div className="bg-orange-200 text-left max-h-[300px] overflow-y-auto">
+          {result &&
+            result?.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="py-1 px-3 border-b border-gray-500 hover:bg-slate-100 hover:cursor-pointer"
+                  onClick={() => setValueSearch(item.license_fixed)}
+                >
+                  {item.license_fixed}
+                </div>
+              );
+            })}
         </div>
       </div>
       <div className="w-[75%]">{render}</div>

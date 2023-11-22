@@ -1,7 +1,27 @@
 import React, { useEffect, useState } from 'react';
+import { notification, Modal } from 'antd';
 import { FolderImage } from '../../components';
 import manageAPI from '../../axios/manageAPI';
 import { VehicleType } from '../../type';
+
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
+const openNotificationWithIcon = (type: NotificationType) => {
+  if(type==='success'){
+    notification[type]({
+      message: 'Detech license',
+      description:
+        'Server get license successfully!!!',
+    });
+  }
+  if(type === 'error'){
+    notification[type]({
+      message: 'Detech license',
+      description:
+        'Server get license failed , try again later !!!',
+    });
+  }
+};
 
 type AllFolderType = {
   list: VehicleType[];
@@ -10,7 +30,52 @@ type AllFolderType = {
 const ManagePage = () => {
   const [chooseImage, setChooseImage] = useState<VehicleType>();
   const [allFolder, setAllFolder] = useState<AllFolderType[]>();
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState('Are you sure delete all data ?');
 
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    setModalText('Wating a  minute ...');
+    setConfirmLoading(true);
+    const deleteAllLicense =async () => {
+      try {
+        const res = await manageAPI.deletteAllLicense();
+        if(res.status === 200) {
+          setModalText('Detete all license successful !')
+        }else{
+          setModalText('Detete all license fail !')
+        }
+      }catch{
+        setModalText('Detete all license fail !')
+      }
+    }
+    setTimeout(() => {
+      setOpen(false);
+      deleteAllLicense();
+      setConfirmLoading(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
+  const handleDetechLincese = async () => {
+    try {
+      const res = await manageAPI.getLicense();
+      if(res.status === 200){
+        openNotificationWithIcon('success')
+      }else{
+        openNotificationWithIcon('error')
+      }
+    }catch{
+      openNotificationWithIcon('error')
+    }
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,7 +121,7 @@ const ManagePage = () => {
             );
           })}
         </div>
-        <div className="ml-6 w-[60%] flex">
+        <div className="ml-6 w-[70%] flex">
           {chooseImage && (
             <>
               <div className="w-[65%]">
@@ -83,9 +148,24 @@ const ManagePage = () => {
             </>
           )}
         </div>
-        <div className="w-[20%]"></div>
+        <div className="w-[10%]">
+          <button className='bg-orange-400 mt-4 px-2 py-1 text-white rounded-md' onClick={handleDetechLincese}>
+            Detech license
+          </button>
+          <button className='bg-red-600 mt-4 px-2 py-1 text-white rounded-md' onClick={showModal}>
+            Delete all data
+          </button>
+        </div>
       </div>
-      <div>fff</div>
+      <Modal
+        title="Delete all data" 
+        open={open}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+      >
+        <p>{modalText}</p>
+      </Modal>
     </div>
   );
 };
