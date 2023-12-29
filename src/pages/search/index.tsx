@@ -5,7 +5,6 @@ import { useDebounce } from '../../hooks';
 import { DatePicker } from 'antd';
 import {
   GridItem,
-  Text,
   Stack,
   Divider,
   Grid,
@@ -119,7 +118,7 @@ const SearchPage = () => {
       <div className="w-[24%] ">
         <Divider />
         <Stack w="100%">
-          <Text>Color</Text>
+          <h5 className="text-left font-semibold italic text-xl">Color</h5>
           <Grid templateColumns="repeat(6, 1fr)" gap={2}>
             {colors.map((color) => {
               return (
@@ -134,16 +133,16 @@ const SearchPage = () => {
           value={valueSearch}
           onChange={handleChangeSearch}
           placeholder="Search"
-          className="border border-gray-300 w-full px-3 py-1 mt-4"
+          className="border border-gray-300 mt-6 text-black w-full px-3 py-1"
         />
-        <h5>List license</h5>
-        <div className="bg-orange-200 text-left max-h-[300px] overflow-y-auto">
+        <h5 className="text-left font-semibold italic text-xl mt-2">List license</h5>
+        <div className=" text-left max-h-[300px] overflow-y-auto">
           {result &&
             result?.map((item, index) => {
               return (
                 <div
                   key={index}
-                  className="py-1 px-3 border-b border-gray-500 hover:bg-slate-100 hover:cursor-pointer"
+                  className="py-1 px-3 border-b border-zinc-500 hover:bg-zinc-700 hover:cursor-pointer"
                   onClick={() => setValueSearch(item.license_fixed)}
                 >
                   {item.license_fixed}
@@ -151,8 +150,10 @@ const SearchPage = () => {
               );
             })}
         </div>
+        <h5 className="text-left font-semibold italic text-xl mt-6">Filter day</h5>
         <RangePicker size="middle" className="mt-4" format="YYYY-MM-DD" onChange={onChange} />
-        <div className="mt-10">
+        <h5 className="text-left font-semibold italic text-xl mt-6">Filter time</h5>
+        <div className="mt-6">
           <RangeSlider
             // eslint-disable-next-line jsx-a11y/aria-proptypes
             aria-label={['min', 'max']}

@@ -12,7 +12,7 @@ type InputSearchType = {
 
 const InputSearch: React.FC<InputSearchType> = ({ type = 'text', value, onChange, placeholder, className }) => {
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className} text-black`}>
       <input
         value={value}
         placeholder={placeholder}

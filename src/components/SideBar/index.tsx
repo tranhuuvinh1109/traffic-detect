@@ -1,5 +1,5 @@
 import { GridItem, Text, RadioGroup, Stack, Radio, Divider, CheckboxGroup, Checkbox, Grid } from '@chakra-ui/react';
-import React, { useState, ChangeEvent, useContext } from 'react';
+import React, { useState, useEffect, ChangeEvent, useContext } from 'react';
 import { options } from '../../constant/options';
 import { filters } from '../../constant/filters';
 import { colors } from '../../constant/colors';
@@ -9,8 +9,9 @@ import { APP_CONTEXT } from '../../App';
 
 type SideBarType = {
   setInputService: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
 };
-const SideBar: React.FC<SideBarType> = ({ setInputService }) => {
+const SideBar: React.FC<SideBarType> = ({ className, setInputService }) => {
   const context = useContext(APP_CONTEXT);
   const [searchValue, setSearchValue] = useState('');
 
@@ -24,9 +25,17 @@ const SideBar: React.FC<SideBarType> = ({ setInputService }) => {
       context.setAddress(address);
     }
   };
+  useEffect(() => {
+    return () => {
+      if (context && context.setAddress) {
+        context.setAddress('');
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
-    <div>
-      <div className="ml-2">
+    <div className={className}>
+      <div>
         <Text fontSize="xl" textAlign="left">
           Select location
         </Text>
