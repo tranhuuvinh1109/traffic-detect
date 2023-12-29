@@ -6,6 +6,8 @@ const manageAPI = {
   deleteAllLicense: () => axiosClient.get('delete-all-vehicle/'),
   getAll: () => axiosClient.get('vehicles/'),
   clear: () => axiosClient.get('clear/'),
+  getLicense: () => axiosClient.get('license/'),
+  deletteAllLicense: () => axiosClient.post('delete-all-vehicle/'),
 };
 
 export default manageAPI;

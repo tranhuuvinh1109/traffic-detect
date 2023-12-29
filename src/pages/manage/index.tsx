@@ -5,6 +5,7 @@ import { VehicleType } from '../../type';
 import { notification, Modal } from 'antd';
 import { createPortal } from 'react-dom';
 import { LoadingPage } from '..';
+
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 const openNotificationWithIcon = (type: NotificationType) => {

@@ -6,6 +6,7 @@ import { colors } from '../../constant/colors';
 import Color from '../Color';
 import InputSearch from '../InputSearch';
 import { APP_CONTEXT } from '../../App';
+import manageAPI from '../../axios/manageAPI';
 
 type SideBarType = {
   setInputService: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,6 +22,15 @@ const SideBar: React.FC<SideBarType> = ({ className, setInputService }) => {
   const handleChangeRadio = (address: string) => {
     if (context && context.setAddress) {
       console.log('change');
+      const clear = async () => {
+        try {
+          const res = await manageAPI.clear()
+          console.log(res);
+        }catch(err) {
+          console.log(err)
+        }
+      }
+      clear()
       setInputService(true);
       context.setAddress(address);
     }
