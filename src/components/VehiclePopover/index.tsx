@@ -28,7 +28,7 @@ const VehiclePopover: React.FC<VehiclePopoverType> = ({ data }) => {
   );
   return (
     <div className="w-[32%] mr-3 border rounded-lg p-2 mb-4">
-      <Popover content={content} title={`Zoom - ${data.license_fixed}`}>
+      <Popover content={content} title={`${data.license_fixed} - ${data.location} `}>
         <img
           onMouseMove={handleMouseMove}
           className="w-full rounded-lg"

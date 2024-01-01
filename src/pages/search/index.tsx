@@ -198,27 +198,6 @@ const SearchPage = () => {
             </RangeSliderThumb>
           </RangeSlider>
         </div>
-        <input
-          value={valueSearch}
-          onChange={handleChangeSearch}
-          placeholder="Search"
-          className="border border-gray-300 w-full px-3 py-1 mt-4"
-        />
-        <h5>List license</h5>
-        <div className="bg-orange-200 text-left max-h-[300px] overflow-y-auto">
-          {result &&
-            result?.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="py-1 px-3 border-b border-gray-500 hover:bg-slate-100 hover:cursor-pointer"
-                  onClick={() => setValueSearch(item.license_fixed)}
-                >
-                  {item.license_fixed}
-                </div>
-              );
-            })}
-        </div>
       </div>
       <div className="w-[75%]">{render}</div>
     </div>

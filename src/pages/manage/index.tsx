@@ -167,7 +167,7 @@ const ManagePage = () => {
                     <VehicleInfor className="w-[30%]" title="Time" value={chooseImage.time} />
                     <VehicleInfor className="w-[30%]" title="Location" value={chooseImage.location} />
                     <VehicleInfor className="w-[30%]" title="Color" value={'No'} />
-                    <VehicleInfor className="w-[30%]" title="Color" value={'No'} />
+                    <VehicleInfor className="w-[30%]" title="Type" value={'No'} />
                     <VehicleInfor className="w-[30%]" title="Color" value={'No'} />
                     <VehicleInfor className="w-[30%]" title="Color" value={'No'} />
                   </div>
