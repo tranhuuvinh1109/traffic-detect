@@ -7,7 +7,20 @@ import { createPortal } from 'react-dom';
 import { LoadingPage } from '..';
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
+const convertType = (id: string) => {
+  switch (id) {
+    case '2':
+      return 'Car';
+    case '3':
+      return 'Motorcycle';
+    case '5':
+      return 'Bus';
+    case '7':
+      return 'Truck';
+    default:
+      return '';
+  }
+};
 const openNotificationWithIcon = (type: NotificationType) => {
   if (type === 'success') {
     notification[type]({
@@ -167,9 +180,9 @@ const ManagePage = () => {
                     <VehicleInfor className="w-[30%]" title="Time" value={chooseImage.time} />
                     <VehicleInfor className="w-[30%]" title="Location" value={chooseImage.location} />
                     <VehicleInfor className="w-[30%]" title="Color" value={'No'} />
-                    <VehicleInfor className="w-[30%]" title="Type" value={'No'} />
-                    <VehicleInfor className="w-[30%]" title="Color" value={'No'} />
-                    <VehicleInfor className="w-[30%]" title="Color" value={'No'} />
+                    <VehicleInfor className="w-[30%]" title="Type" value={convertType('' + chooseImage.type)} />
+                    <VehicleInfor className="w-[30%]" title="Owner" value={'No'} />
+                    <VehicleInfor className="w-[30%]" title="Branch" value={'No'} />
                   </div>
                 </div>
               </>
